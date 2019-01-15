@@ -1,0 +1,110 @@
+#include<iostream>
+#include<stdlib.h>
+#include<time.h>
+
+using namespace std;
+const int row = 5;//for our 2 dimensional arrays row 
+const int column = 10;//for our 2 dimensional arrays column
+
+void yazdir(int matris[][column])// I made it for printing 2 dimensional arrays
+{
+	int i, j;
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < column; j++)
+		{
+			cout << (char)matris[i][j] << "  ";//by (char) we convert our integer matris to character matris
+		}
+		cout << endl;
+	}
+}
+
+
+
+int main()
+{
+	srand(time(NULL));//makes random really random
+	int i, j, a, b;//for loops initializaters
+	int random1, random2;//assings random values to these variables
+	bool unique = true;//bool experression which is made for be sure to each character usede just once
+
+	int harf[row][column];// our 2 dimensional array
+
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < column; j++)
+		{
+			if (j % 2 == 0)//for listing our matris by one upperletter and one lower letter and so on
+			{
+				do//for determining if a particular uppercase character used just once
+				{
+					random1 = rand() % 26 + 65;//randomly produce a number which corresponds to ascii table character values
+					for (a = 0; a < row; a++)
+					{
+						for (b = 0; b < column; b++)
+						{
+							unique = true;
+							if (harf[a][b] == random1)//controls if harf[a][b] used before
+							{
+								unique = false;
+								b = column;
+								a = row;
+							}
+						}
+					}
+
+				} while (!unique);
+				harf[i][j] = random1;//if all conditions are passed random1 value becames harf[i][j] 
+			}
+			else
+			{
+				do//for determining if a particular lowercase character used just once
+				{
+					random2 = rand() % 26 + 97;//randomly produce a number which corresponds to ascii table character values
+					for (a = 0; a < row; a++)
+					{
+						for (b = 0; b < column; b++)
+						{
+							unique = true;
+							if (harf[a][b] == random2)//controls if harf[a][b] used before
+							{
+								unique = false;
+								b = column;
+								a = row;
+							}
+						}
+					}
+
+				} while (!unique);
+				harf[i][j] = random2;//if all conditions are passed random2 value becames harf[i][j] 
+			}
+		}
+	}
+	cout << "Tekrarsiz ve Rastgele Dizi" << endl;
+	yazdir(harf);//calling our function to print out harf matris
+	cout << endl;
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < column; j++) {
+			int m = i;
+			int n = j + 1;
+			while (true)
+			{
+				if (n == 10)
+				{
+					n = 0;
+					m++;
+					if (m == 5) break;//for quiting while loop
+				}
+
+				if (harf[i][j] > harf[m][n]) std::swap(harf[i][j], harf[m][n]);//swaps our values and by that puts our list in order
+
+				n++;
+			}
+		}
+	}
+	cout << "Siralanmis Dizi" << endl;
+	yazdir(harf);//calling our function to print out harf matris
+
+
+	system("pause");
+}
